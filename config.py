@@ -75,7 +75,7 @@ class Config(BaseModel, extra="ignore"):
     )
     pallas_afdian_promo_image_path: str = Field(
         default="",
-        description="宣传图本地路径或文件名（如 aifadian.jpg）；会在 data/afdian、data/draw 等目录查找。",
+        description="宣传图本地路径或文件名（如 aifadian.jpg 或 data/draw/aifadian.jpg）；会在仓库根、data/afdian、data/draw、data/pallas_image 查找；按文件字节发送。",
         json_schema_extra=_ui("宣传图本地路径", group="宣传"),
     )
     pallas_afdian_group_billing_enabled: bool = Field(

@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import asyncio
+from pathlib import Path
+
 from nonebot import logger
 from nonebot.adapters.onebot.v11 import GroupMessageEvent, Message, MessageSegment
 
@@ -25,7 +28,9 @@ from .store import admin_set_balance, credit_balance, ever_had_credits
 promo = message_command(
     "afdian.promo", "牛牛爱发电", aliases=("画画额度说明",), cd_sec=10
 )
-quota = message_command("afdian.quota", "画画额度", cd_sec=5)
+quota = message_command(
+    "afdian.quota", "画画额度", aliases=("画画次数",), cd_sec=5
+)
 group_bind = message_command(
     "afdian.group_bind", "绑定画画共享额度", scene="group", cd_sec=10
 )
@@ -49,6 +54,19 @@ def _args(context: PluginHandlerContext, command: str) -> list[str]:
     return text[len(command) :].strip().split() if text.startswith(command) else []
 
 
+async def _promo_image_segment(path: Path) -> MessageSegment | None:
+    """优先读本地文件字节发图；file:// 在部分协议端/容器里不可靠。"""
+    try:
+        raw = await asyncio.to_thread(path.read_bytes)
+    except OSError as error:
+        logger.warning("爱发电宣传图读取失败 path={} err={}", path, error)
+        return None
+    if not raw:
+        logger.warning("爱发电宣传图为空 path={}", path)
+        return None
+    return MessageSegment.image(raw)
+
+
 async def handle_promo(context: PluginHandlerContext) -> None:
     if isinstance(context.event, GroupMessageEvent):
         if not await try_acquire_group_broadcast_slot(
@@ -59,7 +77,11 @@ async def handle_promo(context: PluginHandlerContext) -> None:
     message = Message()
     local_image = resolve_promo_image_path(config)
     if local_image is not None:
-        message += MessageSegment.image(f"file://{local_image.resolve()}")
+        segment = await _promo_image_segment(local_image)
+        if segment is not None:
+            message += segment
+        else:
+            logger.warning("爱发电宣传图未能发送 path={}", local_image)
     elif config.pallas_afdian_promo_image_url.strip():
         message += MessageSegment.image(config.pallas_afdian_promo_image_url.strip())
     page = config.pallas_afdian_promo_page_url.strip()
@@ -70,7 +92,6 @@ async def handle_promo(context: PluginHandlerContext) -> None:
     if not message:
         await context.finish("页面暂未配置，请联系管理员。")
     await context.finish(message)
-
 
 async def handle_quota(context: PluginHandlerContext) -> None:
     group_id = context.group_id or 0

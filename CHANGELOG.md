@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3
+
+- `画画额度` 增加别名 `画画次数`。
+- 宣传图本地路径按文件字节发送（不再依赖 `file://`）；配置路径可解析绝对路径、仓库相对路径、文件名（在 `data/afdian` / `data/draw` / `data/pallas_image` 查找）。
+
 ## 0.1.2
 
 - 修正商店作者角标：移除误用为作者头像的 `assets/avatar.png` 与索引 `avatar` 字段（角标改回 GitHub 作者头像）。

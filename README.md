@@ -8,7 +8,7 @@
 
 <p align="center">
   <img alt="社区插件" src="https://img.shields.io/badge/%E7%A4%BE%E5%8C%BA%E6%8F%92%E4%BB%B6-4B5563">
-  <img alt="版本" src="https://img.shields.io/badge/%E7%89%88%E6%9C%AC-v0.1.2-2563EB">
+  <img alt="版本" src="https://img.shields.io/badge/%E7%89%88%E6%9C%AC-v0.1.3-2563EB">
 </p>
 
 ## 安装方式
@@ -26,7 +26,7 @@ git clone https://github.com/TogetsuDo/pallas-plugin-afdian.git local/plugins/af
 ## 怎么使用
 
 - `牛牛爱发电` / `画画额度说明`：回复支持页链接与宣传图。
-- `画画额度`：查看个人额外额度或本群共享额度。
+- `画画额度` / `画画次数`：查看个人额外额度或本群共享额度。
 - `绑定画画共享额度` / `解绑画画共享额度`：在群内绑定或解除共享额度池。
 - `用户额度` / `用户额度设置`：超管私聊查看或设置余额。
 
@@ -37,7 +37,7 @@ git clone https://github.com/TogetsuDo/pallas-plugin-afdian.git local/plugins/af
 | 功能 | 默认等级 |
 | --- | --- |
 | `牛牛爱发电` / `画画额度说明` | 所有人 |
-| `画画额度` | 所有人 |
+| `画画额度` / `画画次数` | 所有人 |
 | `绑定画画共享额度` / `解绑画画共享额度` | 所有人 |
 | `用户额度` / `用户额度设置` | 超级用户 |
 
@@ -110,7 +110,7 @@ https://你的域名/pallas-image/afdian/webhook?token=TOKEN
 | 配置项 | 说明 |
 | --- | --- |
 | `pallas_afdian_promo_page_url` | 「牛牛爱发电」回复中的支持页链接 |
-| `pallas_afdian_promo_image_path` | 宣传图本地路径/文件名（优先；查找目录同额度文件） |
+| `pallas_afdian_promo_image_path` | 宣传图本地路径/文件名（优先；查找目录同额度文件；按文件字节发送） |
 | `pallas_afdian_promo_image_url` | 宣传图 http(s) 地址（无本地图时用） |
 | `pallas_afdian_group_billing_enabled` | 是否启用群共享额度 |
 | `pallas_afdian_group_billing_group_ids` | 启用共享的群号列表；空列表表示全部群可绑 |
