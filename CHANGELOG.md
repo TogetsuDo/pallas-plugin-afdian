@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.6
+
+- 声明 `afdian.quota` / `afdian.promo` LLM 工具。
+
 ## 0.1.5
 
 - `metadata.extra.help_tag`：帮助图分组为「工具」(tool)。

@@ -9,6 +9,7 @@ from pallas.api.metadata import (
     join_usage,
     usage_line,
 )
+from pallas.api.platform import llm_command_tool_row
 
 from . import handlers as handlers  # noqa: F401
 from . import startup as startup  # noqa: F401
@@ -28,7 +29,7 @@ __plugin_meta__ = PluginMetadata(
     supported_adapters={"~onebot.v11"},
     extra={
         "help_tag": "tool",
-        "version": "0.1.5",
+        "version": "0.1.6",
         "menu_template": PLUGIN_MENU_TEMPLATE,
         "command_permissions": [
             {"id": "afdian.promo", "label": "牛牛爱发电", "default": "everyone"},
@@ -54,6 +55,22 @@ __plugin_meta__ = PluginMetadata(
                 "label": "用户额度设置",
                 "default": "superuser",
             },
+        ],
+        "llm_tools": [
+            llm_command_tool_row(
+                name="afdian.quota",
+                command_id="afdian.quota",
+                description="查询画画额外额度或本群共享额度。用户问额度、画画次数时使用。",
+                parameters={"type": "object", "properties": {}},
+                command_template="画画额度",
+            ),
+            llm_command_tool_row(
+                name="afdian.promo",
+                command_id="afdian.promo",
+                description="查看爱发电支持/额度说明页面。",
+                parameters={"type": "object", "properties": {}},
+                command_template="牛牛爱发电",
+            ),
         ],
         "menu_data": [
             {
