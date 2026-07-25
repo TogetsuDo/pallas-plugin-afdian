@@ -27,7 +27,7 @@ __plugin_meta__ = PluginMetadata(
     homepage=PLUGIN_HOMEPAGE,
     supported_adapters={"~onebot.v11"},
     extra={
-        "version": "0.1.3",
+        "version": "0.1.4",
         "menu_template": PLUGIN_MENU_TEMPLATE,
         "command_permissions": [
             {"id": "afdian.promo", "label": "牛牛爱发电", "default": "everyone"},

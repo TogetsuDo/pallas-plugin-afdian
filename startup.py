@@ -13,8 +13,14 @@ def migrate_draw_data() -> None:
     for filename in _FILES:
         destination = destination_dir / filename
         source = source_dir / filename
-        if destination.exists() or not source.is_file():
+        if not source.is_file():
             continue
+        if destination.is_file():
+            try:
+                if source.stat().st_mtime_ns <= destination.stat().st_mtime_ns:
+                    continue
+            except OSError:
+                continue
         try:
             copy2(source, destination)
             logger.info("已迁移 draw Afdian 数据文件: {}", filename)
