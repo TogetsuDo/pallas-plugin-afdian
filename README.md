@@ -1,99 +1,97 @@
-# 牛牛爱发电（afdian）
+<p align="center">
+  <img src="./assets/brand-avatar.png" width="220" height="220" alt="牛牛爱发电">
+</p>
 
-可选社区插件：通过爱发电订单为画画等功能提供**额外额度**与可选**群共享额度**。
+<h1 align="center">牛牛爱发电 afdian</h1>
 
-安装目录须为 `local/plugins/afdian/`（与 `PLUGIN_ID` 一致）。
+<p align="center">通过爱发电为画画等功能提供可选额外额度与群共享额度。</p>
+
+<p align="center">
+  <img alt="社区插件" src="https://img.shields.io/badge/%E7%A4%BE%E5%8C%BA%E6%8F%92%E4%BB%B6-4B5563">
+  <img alt="版本" src="https://img.shields.io/badge/%E7%89%88%E6%9C%AC-v0.1.0-2563EB">
+</p>
+
+## 安装方式
+
+可在控制台插件商店安装，也可按社区插件目录放入 `local/plugins/afdian/`（目录名须与插件 ID `afdian` 一致，与仓库名无关）。
 
 ```bash
-# 推荐：克隆到插件目录
-git clone https://github.com/TogetsuDo/pallas-afdian.git local/plugins/afdian
-
-# 或从本仓同步到站点
-rsync -a --delete --exclude .git/ /path/to/pallas-afdian/ /path/to/Pallas-Bot/local/plugins/afdian/
+git clone https://github.com/TogetsuDo/pallas-plugin-afdian.git local/plugins/afdian
 ```
 
-装好后重启 Bot（或热加载社区插件）。未启用时，画画只走免费日限，**不会**出现付费引导文案。
+装好后重启 Bot（或热加载社区插件）。未启用时，画画等只走免费日限，**不会**出现付费引导文案。
 
-包内 `assets/icon.png`（及 cover / avatar）供控制台商店与插件列表展示。
+## 怎么使用
 
----
+- `牛牛爱发电` / `画画额度说明`：回复支持页链接与宣传图。
+- `画画额度`：查看个人额外额度或本群共享额度。
+- `绑定画画共享额度` / `解绑画画共享额度`：在群内绑定或解除共享额度池。
+- `用户额度` / `用户额度设置`：超管私聊查看或设置余额。
 
-## 怎么配置（推荐走 WebUI）
+> 详细用法、限制条件和可用范围以帮助为主。拒画文案只用「免费次数 / 额外额度 / 共享额度」等中性说法，不会在拒画时硬推爱发电口令。
 
-打开控制台 → **插件** → **牛牛爱发电**，按分组填写后保存。
+## 命令权限
 
-### 1. 基础（必做）
-
-| 界面项 | 作用 |
+| 功能 | 默认等级 |
 | --- | --- |
-| **启用爱发电额度** | 打开总开关 |
-| **Webhook Token** | 自定一串校验口令（不要用空）；须与爱发电后台回调 URL 里的 `token` **完全一致** |
+| `牛牛爱发电` / `画画额度说明` | 所有人 |
+| `画画额度` | 所有人 |
+| `绑定画画共享额度` / `解绑画画共享额度` | 所有人 |
+| `用户额度` / `用户额度设置` | 超级用户 |
 
-两项都配好后插件才算「就绪」，画画才可能扣额外额度。
+## 配置项
 
-### 2. 爱发电开发者入口与 Webhook
+> 可在控制台 **插件 → 牛牛爱发电** 中修改；落盘键前缀为 `PALLAS_AFDIAN_*`。旧键 `PALLAS_IMAGE_AFDIAN_*` / `DRAW_AFDIAN_WEBHOOK_TOKEN` 仅在新键为空时兼容读取。
 
-官方文档与后台（域名 `afdian` / `ifdian` 通常互通，打不开可换一个）：
+### 基础（必做）
+
+| 配置项 | 说明 |
+| --- | --- |
+| `pallas_afdian_enabled` | 是否启用爱发电额外额度 |
+| `pallas_afdian_webhook_token` | Webhook 校验 token；须与回调 URL 中的 `token` 完全一致 |
+
+两项都配好后插件才算就绪，画画等才可能扣额外额度。
+
+### Webhook
+
+开发者文档与后台（`afdian` / `ifdian` 域名通常互通）：
 
 | 用途 | URL |
 | --- | --- |
 | 开发者文档（API / Webhook） | https://guide.afdian.com/creator/developer |
-| 开发者后台（填 Webhook、查 user_id / API Token） | https://afdian.net/dashboard/dev |
+| 开发者后台 | https://afdian.net/dashboard/dev |
 
-Bot 需能被公网访问（或经反代）。在开发者后台配置通知地址，二选一（`TOKEN` 换成你在 WebUI 填的口令）：
+Bot 需公网可访问（或经反代）。在开发者后台配置通知地址（`TOKEN` 换成 WebUI 中的口令）：
 
 ```text
 https://你的域名/afdian/webhook?token=TOKEN
 https://你的域名/pallas-image/afdian/webhook?token=TOKEN
 ```
 
-第二条是旧路径，继续用也行。
+第二条为旧路径，可继续使用。订单留言需能解析 QQ（如 `QQ:123456789`），否则无法入账。数据默认在 `data/afdian/`；若仅有旧 `data/draw/pallas_afdian_*.json`，启动时会自动迁移。
 
-**订单留言**里要能解析出 QQ，例如：`QQ:123456789`（赞助人填留言；解析失败则无法入账）。
+### 额度方案
 
-入账数据默认在 `data/afdian/`。若以前只有 `data/draw/pallas_afdian_*.json`，启动时会自动迁到新目录。
+匹配顺序：方案金额额度 → 方案额度 → 默认发放额度。
 
-### 3. 额度方案（按需）
-
-每次成功回调会给对应用户加「额外次数」。匹配顺序：
-
-1. **方案金额额度**（方案 ID + 实付金额）→ 最精确  
-2. **方案额度**（只按方案 ID）  
-3. **默认发放额度**（上面都没命中时用，默认 10）
-
-| 界面项 | 说明 |
+| 配置项 | 说明 |
 | --- | --- |
-| **默认发放额度** | 兜底次数，例如 `65` |
-| **方案额度 JSON** | 例：`{"方案ID": 30}` |
-| **方案金额额度 JSON** | 直接贴嵌套 JSON；或改用下方「文件」 |
-| **方案金额额度文件** | 文件名或相对路径，如 `1.json` |
+| `pallas_afdian_default_credits` | 未命中方案映射时的默认次数 |
+| `pallas_afdian_plan_credits_json` | 按方案 ID 发放，如 `{"方案ID": 30}` |
+| `pallas_afdian_plan_amount_credits_json` | 按方案 ID + 金额的嵌套 JSON |
+| `pallas_afdian_plan_amount_credits_json_path` | 同上内容的文件路径（如 `1.json`） |
 
-文件查找顺序：绝对路径 → 仓库根相对路径 → `data/afdian/` → `data/draw/` → `data/pallas_image/`。  
-以前放在 `data/draw/1.json` 的映射可以继续写 `1.json`，不必搬文件。
+文件查找：绝对路径 → 仓库根相对路径 → `data/afdian/` → `data/draw/` → `data/pallas_image/`。
 
-#### 方案 ID（`plan_id`）怎么拿
+**方案 ID（`plan_id`）怎么拿**：以订单字段为准（见[官方说明](https://guide.afdian.com/creator/developer)）；自选金额订单常为空，只能走默认额度。后台不一定有显眼的「复制方案 ID」，较稳妥的做法：
 
-插件按订单里的 **`plan_id`** 做映射（见[官方字段说明](https://guide.afdian.com/creator/developer)）。**自选金额**订单该字段常为空，只能走「默认发放额度」。
+1. 配好 Webhook 后下一笔真实订单（可用小额），从回调 JSON 抄 `data.order.plan_id` 与 `total_amount`（推荐）。
+2. 若下单页形如 `…/order/create?plan_id=…`，可从查询参数抄。
+3. 用开发者后台的 API Token 调「查订单」看历史订单里的 `plan_id`。「查看方案」接口需要已经知道 ID，不能从零枚举。
 
-爱发电后台**不一定**有「复制方案 ID」的显眼入口；社区里常见、也较稳妥的做法是：
+`/item/<一段 id>` 有时碰巧等于 `plan_id`，但并非官方保证；**与 Webhook 不一致时以回调 / 查订单为准。**
 
-1. **先配好 Webhook，下一笔真实订单（可用小额），从回调里抄**（推荐）  
-   看 Bot 日志或抓包 JSON：`data.order.plan_id`，以及 `total_amount`（用来填金额档）。  
-   很多站点就是这样拿到 ID 再写进额度映射的；不必猜 URL。
-
-2. **下单页地址栏里的查询参数**  
-   若打开赞助档后跳到类似  
-   `https://afdian.net/order/create?plan_id=……&product_type=…`  
-   则 `plan_id=` 后面那一段就是。  
-   （部分分享链接也会带这个参数。）
-
-3. **开放 API 查历史订单**  
-   在[开发者后台](https://afdian.net/dashboard/dev)拿到 `user_id` 与 API Token，按[文档](https://guide.afdian.com/creator/developer)调用「查订单」；已有订单的 `plan_id` 可直接复用。  
-   注意：文档里的「查看方案」接口需要**已经知道** `plan_id`，不能用来从零枚举。
-
-`/item/<一段 id>` 这类商品页路径，**有时**与 `plan_id` 相同，但爱发电未把它写成通用规则；**若与 Webhook 不一致，一律以回调 / 查订单结果为准。**
-
-嵌套 JSON 示例（外层为订单里的 `plan_id`，内层为金额 → 次数）：
+金额键建议两位小数，与订单 `total_amount` 一致，例如：
 
 ```json
 {
@@ -105,89 +103,50 @@ https://你的域名/pallas-image/afdian/webhook?token=TOKEN
 }
 ```
 
-金额键建议写成两位小数（与订单字段 `total_amount` 一致）。
+### 宣传与群共享
 
-### 4. 宣传（「牛牛爱发电」回复）
-
-用户发 `牛牛爱发电` / `画画额度说明` 时回复支持页与配图。
-
-| 界面项 | 说明 |
+| 配置项 | 说明 |
 | --- | --- |
-| **支持页链接** | 爱发电商品/主页 URL |
-| **宣传图本地路径** | 如 `aifadian.jpg`（优先）；查找目录同「额度文件」 |
-| **宣传图 URL** | 本地图找不到时可用 http(s) 图床地址 |
+| `pallas_afdian_promo_page_url` | 「牛牛爱发电」回复中的支持页链接 |
+| `pallas_afdian_promo_image_path` | 宣传图本地路径/文件名（优先；查找目录同额度文件） |
+| `pallas_afdian_promo_image_url` | 宣传图 http(s) 地址（无本地图时用） |
+| `pallas_afdian_group_billing_enabled` | 是否启用群共享额度 |
+| `pallas_afdian_group_billing_group_ids` | 启用共享的群号列表；空列表表示全部群可绑 |
 
-本地图与 URL **有本地用本地**；两者都空则只回链接或提示未配置。
+## 排障
 
-### 5. 群共享额度（可选）
-
-| 界面项 | 说明 |
+| 现象 | 处理 |
 | --- | --- |
-| **启用群共享额度** | 打开后，群内可把额度绑到某个 QQ 池 |
-| **共享额度群号列表** | JSON 数组，如 `[123456]`；**留空 `[]` 表示所有群都可绑** |
+| 画画次数用尽仍无额外额度路径 | 检查是否启用、Token 是否非空；未就绪时只会提示明天再来。 |
+| 下单后额度不加 | 看 Webhook 是否打到 Bot、URL 中 `token` 是否一致；留言是否含可解析 QQ。 |
+| 方案映射不生效 | 用回调里的 `plan_id` / `total_amount` 核对 JSON；自选金额可能无 `plan_id`。 |
+| `牛牛爱发电` 无图无链接 | 配置支持页或宣传图路径/URL；确认本地文件能在查找目录中找到。 |
+| 群共享绑不上 | 开启群共享；绑定人需已有额外额度（或曾有过额度）。 |
 
-群内流程：有额外额度的用户发 `绑定画画共享额度` → 同群成员画画可走该共享池；绑定人可 `解绑画画共享额度`。
+## 实现
 
----
+源码位置：
 
-## 配置项一览（环境变量）
+- 插件入口：[`__init__.py`](./__init__.py)
+- 配置定义：[`config.py`](./config.py)
+- 命令处理：[`handlers.py`](./handlers.py)
+- 订单回调：[`webhook.py`](./webhook.py)
+- 额度存储：[`store.py`](./store.py)
+- 对外接口：[`api.py`](./api.py)
 
-WebUI 保存后写入 `data/pallas_config/webui.json`（优先级最高）。键名如下，也可手写进 `pallas.toml` / `.env`（不推荐与 WebUI 重复维护）。
+实现要点：
 
-| 键 | 对应界面 |
-| --- | --- |
-| `PALLAS_AFDIAN_ENABLED` | 启用爱发电额度 |
-| `PALLAS_AFDIAN_WEBHOOK_TOKEN` | Webhook Token |
-| `PALLAS_AFDIAN_DEFAULT_CREDITS` | 默认发放额度 |
-| `PALLAS_AFDIAN_PLAN_CREDITS_JSON` | 方案额度 JSON |
-| `PALLAS_AFDIAN_PLAN_AMOUNT_CREDITS_JSON` | 方案金额额度 JSON |
-| `PALLAS_AFDIAN_PLAN_AMOUNT_CREDITS_JSON_PATH` | 方案金额额度文件 |
-| `PALLAS_AFDIAN_PROMO_PAGE_URL` | 支持页链接 |
-| `PALLAS_AFDIAN_PROMO_IMAGE_PATH` | 宣传图本地路径 |
-| `PALLAS_AFDIAN_PROMO_IMAGE_URL` | 宣传图 URL |
-| `PALLAS_AFDIAN_GROUP_BILLING_ENABLED` | 启用群共享额度 |
-| `PALLAS_AFDIAN_GROUP_BILLING_GROUP_IDS` | 共享额度群号列表 |
+- 对画画等插件为软依赖；未安装或未启用时对方不得出现付费文案。
+- Webhook 做订单幂等入账；群共享将计费 QQ 解析到绑定人。
+- 路径加载时模块名可能是 `local.plugins.afdian`，软依赖按接口特征查找。
 
-旧键 `PALLAS_IMAGE_AFDIAN_*`、`DRAW_AFDIAN_WEBHOOK_TOKEN`：仅当对应**新键为空**时仍兼容读取。新装站点请只用 `PALLAS_AFDIAN_*`。
+## 更新日志
 
----
+版本变更见 [`CHANGELOG.md`](./CHANGELOG.md)；也可在控制台插件商店弹窗的「更新日志」分栏查看。
 
-## 口令
+## 相关链接
 
-| 口令 | 说明 |
-| --- | --- |
-| `牛牛爱发电` / `画画额度说明` | 支持页 + 配图 |
-| `画画额度` | 查看额外额度 / 共享池 |
-| `绑定画画共享额度` / `解绑画画共享额度` | 群共享绑定 |
-| `用户额度` / `用户额度设置` | 超管查看/设置余额（私聊） |
-
-拒画文案只用「免费次数 / 额外额度 / 共享额度」等中性说法，**不会**在拒画时硬推「爱发电」广告。
-
----
-
-## 自检清单
-
-1. WebUI 已开「启用」且 Token 非空  
-2. 爱发电后台 Webhook URL 含同一 `token`，公网能打到 Bot  
-3. 测一笔订单，留言带 `QQ:…`，再发 `画画额度` 看余额是否增加  
-4. （可选）`牛牛爱发电` 能出图/链接；免费次数用尽后画画会扣额外额度  
-
----
-
-## 给其他插件
-
-```python
-from afdian import api
-if api.is_ready():
-    ...
-```
-
-路径加载时模块名可能是 `local.plugins.afdian`；官方画画等通过软依赖按接口特征查找，不依赖短包名。
-
-## 单测
-
-在已安装 Pallas 依赖的环境中：
-
-```bash
-python tests/run_unit.py
-```
+- [社区插件索引](https://github.com/PallasBot/community-plugin-index)
+- [社区插件商店说明](https://github.com/PallasBot/Pallas-Bot/blob/dev/docs/guide/community-plugin-store.md)
+- [爱发电开发者文档](https://guide.afdian.com/creator/developer)
+- [爱发电开发者后台](https://afdian.net/dashboard/dev)
