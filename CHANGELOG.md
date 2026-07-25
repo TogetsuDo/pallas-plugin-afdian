@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- 修正商店作者角标：移除误用为作者头像的 `assets/avatar.png` 与索引 `avatar` 字段（角标改回 GitHub 作者头像）。
+- 保留 `icon` / `cover` / `brand-avatar` 作为插件卡片与 README 配图。
+
 ## 0.1.1
 
 - 仓库更名为 `pallas-plugin-afdian`。
