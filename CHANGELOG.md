@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5
+
+- `metadata.extra.help_tag`：帮助图分组为「工具」(tool)。
+
 ## 0.1.4
 
 - 启动迁移：若 `data/draw` 中额度/绑定文件比 `data/afdian` 更新，则再同步一次，避免升级站点漏迁新订单。
