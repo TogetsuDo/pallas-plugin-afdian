@@ -63,6 +63,7 @@ __plugin_meta__ = PluginMetadata(
                 description="查询画画额外额度或本群共享额度。用户问额度、画画次数时使用。",
                 parameters={"type": "object", "properties": {}},
                 command_template="画画额度",
+                hints=["额度", "画画次数", "画画额度", "还有几次"],
             ),
             llm_command_tool_row(
                 name="afdian.promo",
@@ -70,6 +71,7 @@ __plugin_meta__ = PluginMetadata(
                 description="查看爱发电支持/额度说明页面。",
                 parameters={"type": "object", "properties": {}},
                 command_template="牛牛爱发电",
+                hints=["爱发电", "支持一下", "赞助"],
             ),
         ],
         "menu_data": [
