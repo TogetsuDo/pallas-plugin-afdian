@@ -29,7 +29,7 @@ __plugin_meta__ = PluginMetadata(
     supported_adapters={"~onebot.v11"},
     extra={
         "help_tag": "tool",
-        "version": "0.1.6",
+        "version": "0.1.7",
         "menu_template": PLUGIN_MENU_TEMPLATE,
         "command_permissions": [
             {"id": "afdian.promo", "label": "牛牛爱发电", "default": "everyone"},

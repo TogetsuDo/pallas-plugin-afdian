@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.7
+
+- feat(llm_tools): 为口令工具补充口语 hints
+
 ## 0.1.6
 
 - 声明 `afdian.quota` / `afdian.promo` LLM 工具。
