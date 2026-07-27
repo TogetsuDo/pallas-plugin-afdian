@@ -113,7 +113,7 @@ https://你的域名/pallas-image/afdian/webhook?token=TOKEN
 | `pallas_afdian_promo_image_path` | 宣传图本地路径/文件名（优先；查找目录同额度文件；按文件字节发送） |
 | `pallas_afdian_promo_image_url` | 宣传图 http(s) 地址（无本地图时用） |
 | `pallas_afdian_group_billing_enabled` | 是否启用群共享额度 |
-| `pallas_afdian_group_billing_group_ids` | 启用共享的群号列表；空列表表示全部群可绑 |
+| `pallas_afdian_group_billing_group_ids` | 允许共享的群号白名单；总开关开启后仍须填写，空列表表示没有任何群可绑 |
 
 ## 排障
 
@@ -123,7 +123,7 @@ https://你的域名/pallas-image/afdian/webhook?token=TOKEN
 | 下单后额度不加 | 看 Webhook 是否打到 Bot、URL 中 `token` 是否一致；留言是否含可解析 QQ。 |
 | 方案映射不生效 | 用回调里的 `plan_id` / `total_amount` 核对 JSON；自选金额可能无 `plan_id`。 |
 | `牛牛爱发电` 无图无链接 | 配置支持页或宣传图路径/URL；确认本地文件能在查找目录中找到。 |
-| 群共享绑不上 | 开启群共享；绑定人需已有额外额度（或曾有过额度）。 |
+| 群共享绑不上 | 开启群共享，并把该群号写入白名单；绑定人需已有额外额度（或曾有过额度）。 |
 
 ## 实现
 

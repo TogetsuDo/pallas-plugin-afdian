@@ -85,7 +85,7 @@ class Config(BaseModel, extra="ignore"):
     )
     pallas_afdian_group_billing_group_ids: list[int] = Field(
         default_factory=list,
-        description="启用共享额度的群号列表；留空表示全部群可用。",
+        description="允许共享额度的群号白名单；开启总开关后仍须填群号，留空表示没有任何群可用。",
         json_schema_extra=_ui("共享额度群号列表", group="群共享"),
     )
 

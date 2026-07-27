@@ -61,7 +61,7 @@ def group_uses_shared_billing(group_id: int) -> bool:
     if group_id <= 0 or not config.pallas_afdian_group_billing_enabled:
         return False
     group_ids = set(config.pallas_afdian_group_billing_group_ids)
-    return not group_ids or group_id in group_ids
+    return bool(group_ids) and group_id in group_ids
 
 
 def group_billing_owner(group_id: int) -> int | None:
