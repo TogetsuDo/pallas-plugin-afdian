@@ -4,6 +4,7 @@ from pallas.api.metadata import (
     PLUGIN_EXTRA_VERSION,
     PLUGIN_HOMEPAGE,
     PLUGIN_MENU_TEMPLATE,
+    SCENE_BOTH,
     SCENE_GROUP,
     SCENE_PRIVATE,
     join_usage,
@@ -33,7 +34,11 @@ __plugin_meta__ = PluginMetadata(
         "menu_template": PLUGIN_MENU_TEMPLATE,
         "command_permissions": [
             {"id": "afdian.promo", "label": "牛牛爱发电", "default": "everyone"},
-            {"id": "afdian.quota", "label": "画画额度 / 画画次数", "default": "everyone"},
+            {
+                "id": "afdian.quota",
+                "label": "画画额度 / 画画次数",
+                "default": "everyone",
+            },
             {
                 "id": "afdian.group_bind",
                 "label": "绑定画画共享额度",
@@ -75,6 +80,15 @@ __plugin_meta__ = PluginMetadata(
             ),
         ],
         "menu_data": [
+            {
+                "func": "牛牛爱发电",
+                "trigger_method": "on_command",
+                "trigger_scene": SCENE_BOTH,
+                "trigger_condition": "牛牛爱发电 / 画画额度说明",
+                "command_permission": "afdian.promo",
+                "brief_des": "查看额外额度支持页面",
+                "detail_des": "回复支持页面链接与宣传图。",
+            },
             {
                 "func": "画画额度",
                 "trigger_method": "on_command",

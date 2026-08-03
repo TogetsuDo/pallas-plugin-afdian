@@ -21,8 +21,6 @@ git clone https://github.com/TogetsuDo/pallas-plugin-afdian.git local/plugins/af
 
 装好后重启 Bot（或热加载社区插件）。未启用时，画画等只走免费日限，**不会**出现付费引导文案。
 
-包内 `assets/icon.png`、`assets/cover.png` 供商店卡片展示；`assets/brand-avatar.png` 仅 README 用。作者角标由索引 `author`（GitHub 头像）解析，**不要**在索引里填插件封面到 `avatar`。
-
 ## 怎么使用
 
 - `牛牛爱发电` / `画画额度说明`：回复支持页链接与宣传图。
